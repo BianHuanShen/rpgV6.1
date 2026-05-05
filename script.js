@@ -1,3 +1,4 @@
+// ================= CONFIG =================
 const size = 10;
 const cellSize = 30;
 
@@ -80,11 +81,16 @@ function drawPlayer() {
     });
 }
 
-// ================= INPUT =================
-playerCanvas.addEventListener("click", (e) => {
+// ================= INPUT (CLICK CORREGIDO) =================
+function handleInput(clientX, clientY) {
     const rect = playerCanvas.getBoundingClientRect();
-    const x = Math.floor((e.clientX - rect.left) / cellSize);
-    const y = Math.floor((e.clientY - rect.top) / cellSize);
+
+    // 🔥 FIX ESCALA (esto soluciona tu bug)
+    const scaleX = playerCanvas.width / rect.width;
+    const scaleY = playerCanvas.height / rect.height;
+
+    const x = Math.floor(((clientX - rect.left) * scaleX) / cellSize);
+    const y = Math.floor(((clientY - rect.top) * scaleY) / cellSize);
 
     const index = playerShape.findIndex(p => p.x === x && p.y === y);
 
@@ -92,9 +98,21 @@ playerCanvas.addEventListener("click", (e) => {
     else playerShape.push({ x, y });
 
     drawPlayer();
+}
+
+// CLICK (PC)
+playerCanvas.addEventListener("click", (e) => {
+    handleInput(e.clientX, e.clientY);
 });
 
-// ================= VALIDAR =================
+// TOUCH (MÓVIL)
+playerCanvas.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    handleInput(touch.clientX, touch.clientY);
+});
+
+// ================= VALIDACIÓN =================
 function checkSolution() {
     const correct = targetShape.length === playerShape.length &&
         targetShape.every(t =>
@@ -105,8 +123,10 @@ function checkSolution() {
         coins += 10;
         level++;
         saveGame();
+
         showToast("✔ Correcto!");
         playerShape = [];
+
         updateUI();
         generateLevel();
     } else {
@@ -127,7 +147,11 @@ function updateUI() {
 }
 
 // ================= INIT =================
-loadGame();
-generateLevel();
-drawPlayer();
-updateUI();
+function initGame() {
+    loadGame();
+    generateLevel();
+    drawPlayer();
+    updateUI();
+}
+
+initGame();
