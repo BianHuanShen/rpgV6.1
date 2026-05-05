@@ -13,7 +13,7 @@ function showToast(text) {
     }, 2000);
 }
 
-// VIBRACIÓN (móvil)
+// VIBRACIÓN
 document.addEventListener("click", () => {
     if (navigator.vibrate) navigator.vibrate(30);
 });
