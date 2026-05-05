@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Juego de Figuras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="game-container">
+    <h1>🧠 Juego de Coordenadas</h1>
+
+    <div class="top-bar">
+        <span>Nivel: <strong id="level">1</strong></span>
+        <span>💰 Monedas: <strong id="coins">0</strong></span>
+    </div>
+
+    <div class="boards">
+        <div>
+            <h3>Figura</h3>
+            <canvas id="targetCanvas"></canvas>
+        </div>
+
+        <div>
+            <h3>Tu dibujo</h3>
+            <canvas id="playerCanvas"></canvas>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button onclick="checkSolution()">Verificar</button>
+        <button onclick="clearBoard()">Limpiar</button>
+    </div>
+
+    <p id="message"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
