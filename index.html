@@ -2,39 +2,43 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Figuras</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="game-container">
-    <h1>🧠 Juego de Coordenadas</h1>
+<div class="app">
 
-    <div class="top-bar">
-        <span>Nivel: <strong id="level">1</strong></span>
-        <span>💰 Monedas: <strong id="coins">0</strong></span>
-    </div>
+    <header class="app-header">
+        <div class="level">Nivel <span id="level">1</span></div>
+        <div class="coins">💰 <span id="coins">0</span></div>
+    </header>
 
-    <div class="boards">
-        <div>
+    <main class="app-main">
+
+        <div class="card">
             <h3>Figura</h3>
             <canvas id="targetCanvas"></canvas>
         </div>
 
-        <div>
+        <div class="card">
             <h3>Tu dibujo</h3>
             <canvas id="playerCanvas"></canvas>
         </div>
-    </div>
 
-    <div class="buttons">
-        <button onclick="checkSolution()">Verificar</button>
-        <button onclick="clearBoard()">Limpiar</button>
-    </div>
+    </main>
 
-    <p id="message"></p>
+    <footer class="app-footer">
+        <button id="btnCheck">✔ Verificar</button>
+        <button id="btnClear">🧹 Limpiar</button>
+    </footer>
+
+    <div id="toast"></div>
+
 </div>
 
 <script src="script.js"></script>
+<script src="app-ui.js"></script>
 </body>
 </html>
