@@ -1,4 +1,4 @@
-const size = 10; // cuadrícula 10x10
+const size = 10;
 const cellSize = 30;
 
 let level = 1;
@@ -16,8 +16,9 @@ const pCtx = playerCanvas.getContext("2d");
 let targetShape = [];
 let playerShape = [];
 
+// GRID
 function drawGrid(ctx) {
-    ctx.clearRect(0, 0, 300, 300);
+    ctx.clearRect(0, 0, size * cellSize, size * cellSize);
     ctx.strokeStyle = "#ccc";
 
     for (let i = 0; i <= size; i++) {
@@ -33,10 +34,10 @@ function drawGrid(ctx) {
     }
 }
 
+// GENERAR NIVEL
 function generateLevel() {
     targetShape = [];
-    
-    // Generador simple de figuras (líneas aleatorias)
+
     for (let i = 0; i < level + 2; i++) {
         targetShape.push({
             x: Math.floor(Math.random() * size),
@@ -47,6 +48,7 @@ function generateLevel() {
     drawTarget();
 }
 
+// DIBUJAR OBJETIVO
 function drawTarget() {
     drawGrid(tCtx);
 
@@ -56,6 +58,7 @@ function drawTarget() {
     });
 }
 
+// DIBUJAR JUGADOR
 function drawPlayer() {
     drawGrid(pCtx);
 
@@ -65,6 +68,7 @@ function drawPlayer() {
     });
 }
 
+// CLICK
 playerCanvas.addEventListener("click", (e) => {
     const rect = playerCanvas.getBoundingClientRect();
     const x = Math.floor((e.clientX - rect.left) / cellSize);
@@ -72,15 +76,13 @@ playerCanvas.addEventListener("click", (e) => {
 
     const index = playerShape.findIndex(p => p.x === x && p.y === y);
 
-    if (index >= 0) {
-        playerShape.splice(index, 1);
-    } else {
-        playerShape.push({ x, y });
-    }
+    if (index >= 0) playerShape.splice(index, 1);
+    else playerShape.push({ x, y });
 
     drawPlayer();
 });
 
+// VALIDAR
 function checkSolution() {
     const correct = targetShape.length === playerShape.length &&
         targetShape.every(t =>
@@ -90,25 +92,28 @@ function checkSolution() {
     if (correct) {
         coins += 10;
         level++;
-        document.getElementById("message").textContent = "✔ Correcto!";
+        showToast("✔ Correcto!");
         playerShape = [];
         updateUI();
         generateLevel();
     } else {
-        document.getElementById("message").textContent = "❌ Intenta otra vez";
+        showToast("❌ Intenta otra vez");
     }
 }
 
+// LIMPIAR
 function clearBoard() {
     playerShape = [];
     drawPlayer();
 }
 
+// UI
 function updateUI() {
     document.getElementById("level").textContent = level;
     document.getElementById("coins").textContent = coins;
 }
 
+// INIT
 generateLevel();
 drawPlayer();
 updateUI();
